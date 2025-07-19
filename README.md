@@ -195,7 +195,7 @@ curl -X POST https://zenoapi.com/api/sms/send/ \
 
 Need assistance or Sender ID approval?
 
-* 📱 [WhatsApp Support](https://wa.me/255744223030)
+* 📱 [WhatsApp Support](https://wa.me/255793166166)
 * 📧 Email: `support@zenoapi.com`
 * 🌐 Website: [https://zenoapi.com](https://zenoapi.com)
 
