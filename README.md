@@ -1,8 +1,9 @@
 
+---
 
 # 📡 ZenoAPI SMS Platform – API Documentation
 
-ZenoAPI enables you to send branded SMS messages using your **approved Sender ID** to one or multiple recipients with a simple RESTful API.
+ZenoAPI allows you to send **branded SMS messages** using your approved **Sender ID** to one or multiple recipients via a simple RESTful API.
 
 ---
 
@@ -12,15 +13,15 @@ ZenoAPI enables you to send branded SMS messages using your **approved Sender ID
 https://zenoapi.com
 ```
 
-All requests are made relative to this base URL.
+All endpoints are relative to this base URL.
 
 ---
 
 ## 🔐 Authentication
 
-All endpoints require this header:
+All API requests must include the following headers:
 
-| Key            | Value               |
+| Header         | Value               |
 | -------------- | ------------------- |
 | `x-api-key`    | `your_api_key_here` |
 | `Content-Type` | `application/json`  |
@@ -29,7 +30,7 @@ All endpoints require this header:
 
 ## 🪪 1. Request a Sender ID
 
-Sender IDs are required to brand your messages (e.g., `ZENOPAY`, `SOKABET`, `BANKSMS`).
+To send branded SMS, you need an **approved Sender ID** (e.g., `ZENOPAY`, `SOKABET`, `BANKSMS`).
 
 ### 📥 Endpoint
 
@@ -46,10 +47,10 @@ POST /api/sms/sender-ids/
 }
 ```
 
-| Field       | Type   | Description                                   |
-| ----------- | ------ | --------------------------------------------- |
-| sender\_id  | string | Max 11 characters, no spaces, e.g., `Sokabet` |
-| description | string | Short reason for using the sender ID          |
+| Field       | Type   | Description                                    |
+| ----------- | ------ | ---------------------------------------------- |
+| sender\_id  | string | Max 11 characters, no spaces (e.g., `Sokabet`) |
+| description | string | Brief reason for using this Sender ID          |
 
 ### ✅ Sample Response
 
@@ -64,13 +65,36 @@ POST /api/sms/sender-ids/
 }
 ```
 
-> ⚠️ **Note**: Approval is required before using a Sender ID to send SMS.
+### 📄 View Your Sender IDs
+
+```
+GET /api/sms/sender-ids/
+```
+
+#### Sample Response:
+
+```json
+[
+  {
+    "sender_id": "Sokabet",
+    "verification_status": "approved",
+    "created_at": "2025-04-30T08:24:10Z"
+  },
+  {
+    "sender_id": "Mpira",
+    "verification_status": "pending",
+    "created_at": "2025-05-24T07:55:29Z"
+  }
+]
+```
+
+> ⚠️ **Note:** Your Sender ID must be **approved** before it can be used to send SMS.
 
 ---
 
-## 📩 2. Send Single SMS
+## 📩 2. Send a Single SMS
 
-Send a single message to one recipient using your approved Sender ID.
+Send a single SMS message to one recipient using an approved Sender ID.
 
 ### 📥 Endpoint
 
@@ -89,12 +113,12 @@ POST /api/sms/send/
 }
 ```
 
-| Field         | Type   | Description                                            |
-| ------------- | ------ | ------------------------------------------------------ |
-| recipient     | string | Phone number in international format (e.g., `2557...`) |
-| message       | string | Text content of the SMS                                |
-| sender\_id    | string | Your **approved** Sender ID                            |
-| message\_type | string | `alert` or `marketing`                                 |
+| Field         | Type   | Description                                      |
+| ------------- | ------ | ------------------------------------------------ |
+| recipient     | string | Recipient’s phone number in international format |
+| message       | string | Message content                                  |
+| sender\_id    | string | Your approved Sender ID                          |
+| message\_type | string | Either `alert` or `marketing`                    |
 
 ### ✅ Sample Response
 
@@ -114,7 +138,7 @@ POST /api/sms/send/
 
 ## 📤 3. Send Bulk SMS
 
-Send the same SMS message to multiple phone numbers.
+Send a message to multiple recipients at once using the same message body.
 
 ### 📥 Endpoint
 
@@ -137,12 +161,12 @@ POST /api/sms/bulk/
 }
 ```
 
-| Field         | Type   | Description                                   |
-| ------------- | ------ | --------------------------------------------- |
-| recipients    | array  | List of phone numbers in international format |
-| message       | string | SMS text content                              |
-| sender\_id    | string | Your **approved** Sender ID                   |
-| message\_type | string | `alert` or `marketing`                        |
+| Field         | Type   | Description                                             |
+| ------------- | ------ | ------------------------------------------------------- |
+| recipients    | array  | List of recipient phone numbers in international format |
+| message       | string | Message content                                         |
+| sender\_id    | string | Your approved Sender ID                                 |
+| message\_type | string | Either `alert` or `marketing`                           |
 
 ### ✅ Sample Response
 
@@ -160,22 +184,25 @@ POST /api/sms/bulk/
 
 ---
 
-## ⚠️ Important Guidelines
+## ⚠️ Usage Guidelines
 
-* Use **E.164 format** for all phone numbers (e.g., `2557XXXXXXXX`)
-* Sender ID must be **approved** before using in messages
-* `message_type: marketing` requires user **opt-in**
-* Remove duplicate numbers to avoid extra costs
-
----
-
-## 🧪 Test Your Integration
-
-Use tools like **Postman** or **curl** to test your integration with `x-api-key` in headers.
+* ✅ Use **E.164 format** for all phone numbers (e.g., `2557XXXXXXX`)
+* ✅ Sender ID **must be approved** before use
+* ✅ `message_type: marketing` requires **user opt-in**
+* 🚫 Avoid sending the same number more than once to reduce costs
 
 ---
 
-## 🧰 Example with `curl`
+## 🧪 Testing Your Integration
+
+You can test using tools like:
+
+* [Postman](https://www.postman.com/)
+* `curl` (see example below)
+
+---
+
+## 🧰 Example `curl` Request
 
 ```bash
 curl -X POST https://zenoapi.com/api/sms/send/ \
@@ -193,12 +220,10 @@ curl -X POST https://zenoapi.com/api/sms/send/ \
 
 ## 📞 Support
 
-Need assistance or Sender ID approval?
+Need help or Sender ID approval?
 
-* 📱 [WhatsApp Support](https://wa.me/255793166166)
-* 📧 Email: `support@zenoapi.com`
+* 💬 [Chat on WhatsApp](https://wa.me/255793166166)
+* 📧 Email: [support@zenoapi.com](mailto:support@zenoapi.com)
 * 🌐 Website: [https://zenoapi.com](https://zenoapi.com)
 
 ---
-
-Would you like this exported as a downloadable `README.md` file?
